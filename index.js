@@ -1,0 +1,47 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import productRouter from './routes/productRoutes.js';
+import multer from 'multer';
+import path from 'path';
+import userRouter from './routes/userRoutes.js';
+import cartRouter from './routes/cartRouts.js';
+
+dotenv.config();
+const app = express();
+const port = process.env.PORT || 8000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/images');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = `${Date.now()}${path.extname(file.originalname)}`;
+    return cb(null, file.fieldname + '-' + uniqueSuffix);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.use('/images', express.static('uploads/images'));
+app.post('/uplaod', upload.single('product'), (req, res) => {
+  res.status(200).json({
+    success: true,
+    image_url: `${req.protocol}://${req.get('host')}/images/${
+      req.file.filename
+    }`,
+  });
+});
+
+app.use('/api/product', productRouter);
+app.use('/api/user', userRouter);
+app.use('/api/cart', cartRouter);
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+  connectDB();
+});
