@@ -27,7 +27,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
+app.get('/', (req, res) => {
+  res.send('api is running');
+});
 app.use('/images', express.static('uploads/images'));
 app.post('/uplaod', upload.single('product'), (req, res) => {
   res.status(200).json({
