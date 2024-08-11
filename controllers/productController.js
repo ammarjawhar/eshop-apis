@@ -90,3 +90,20 @@ export const popular = async (req, res) => {
   }
 }
 
+export const relatedProducts = async (req, res) => {
+  try {
+    const products = await ProductModel.find({category});
+    const relatedProducts = products.slice(0, 4);
+    res.status(200).json({
+      success: true,
+      message: 'related products fetched successfully',
+      data: relatedProducts,
+      error: false,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ success: false, message: 'Internal server error', error: true });
+  }
+}
+

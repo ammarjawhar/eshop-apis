@@ -5,6 +5,7 @@ import {
   removeProduct,
   newCollections,
   popular,
+  relatedProducts,
 } from '../controllers/productController.js';
 
 const productRouter = express.Router();
@@ -14,6 +15,6 @@ productRouter.post('/delete', removeProduct);
 productRouter.get('/list', listAllProdcuts);
 productRouter.get('/newcollection', newCollections);
 productRouter.get('/popular', popular);
-productRouter.post('/popular', popular);
+productRouter.post('/related', relatedProducts);
 
 export default productRouter;
