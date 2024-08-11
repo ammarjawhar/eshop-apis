@@ -9,7 +9,16 @@ import userRouter from './routes/userRoutes.js';
 import cartRouter from './routes/cartRouts.js';
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
+    preflightContinue: true,
+    origin: '*',
+  })
+);
 
 dotenv.config();
 const port = process.env.PORT || 8000;
