@@ -91,6 +91,7 @@ export const popular = async (req, res) => {
 
 export const relatedProducts = async (req, res) => {
   const category = req.body.category;
+  console.log(category);
   try {
     const products = await ProductModel.find({ category });
     const relatedProducts = products.slice(0, 4);
