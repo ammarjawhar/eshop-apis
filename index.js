@@ -16,13 +16,7 @@ const port = process.env.PORT || 8000;
 connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: 'https://e-shop-admin-frontend.vercel.app',
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  })
-);
+app.use(cors({}));
 
 const uploadDir = 'uploads/images';
 if (!fs.existsSync(uploadDir)) {
