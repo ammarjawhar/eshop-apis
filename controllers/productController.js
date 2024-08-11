@@ -1,14 +1,14 @@
 import ProductModel from '../models/productModel.js';
 
 export const addProduct = async (req, res) => {
-   const products = await ProductModel.find({});
-   let id;
-   if (products.length > 0) {
-     let last_product = products.slice(-1);
-     id = last_product[0].id + 1;
-   } else {
-     id = 1;
-   }
+  const products = await ProductModel.find({});
+  let id;
+  if (products.length > 0) {
+    let last_product = products.slice(-1);
+    id = last_product[0].id + 1;
+  } else {
+    id = 1;
+  }
 
   const product = new ProductModel({
     id: id,
@@ -72,10 +72,9 @@ export const newCollections = async (req, res) => {
   }
 };
 
-
 export const popular = async (req, res) => {
   try {
-    const products = await ProductModel.find({category: "women"});
+    const products = await ProductModel.find({ category: 'women' });
     const popularProducts = products.slice(0, 4);
     res.status(200).json({
       success: true,
@@ -88,11 +87,12 @@ export const popular = async (req, res) => {
       .status(500)
       .json({ success: false, message: 'Internal server error', error: true });
   }
-}
+};
 
 export const relatedProducts = async (req, res) => {
+  const category = req.body.category;
   try {
-    const products = await ProductModel.find({category});
+    const products = await ProductModel.find({ category });
     const relatedProducts = products.slice(0, 4);
     res.status(200).json({
       success: true,
@@ -105,5 +105,4 @@ export const relatedProducts = async (req, res) => {
       .status(500)
       .json({ success: false, message: 'Internal server error', error: true });
   }
-}
-
+};
