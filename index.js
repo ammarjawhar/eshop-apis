@@ -13,7 +13,7 @@ app.use(
   cors({
     origin: [
       'https://frondend-eshop.vercel.app',
-      'https://frondend-eshop.vercel.app',
+      'https://aeshop-admin.vercel.app',
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
