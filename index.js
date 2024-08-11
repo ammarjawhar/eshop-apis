@@ -7,6 +7,8 @@ import multer from 'multer';
 import path from 'path';
 import userRouter from './routes/userRoutes.js';
 import cartRouter from './routes/cartRouts.js';
+
+const app = express();
 app.use(
   cors({
     origin: '*',
@@ -16,7 +18,6 @@ app.use(
 );
 
 dotenv.config();
-const app = express();
 const port = process.env.PORT || 8000;
 
 connectDB();
