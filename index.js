@@ -19,9 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads/images');
-  },
+  destination: './uploads/images',
   filename: function (req, file, cb) {
     const uniqueSuffix = `${Date.now()}${path.extname(file.originalname)}`;
     return cb(null, file.fieldname + '-' + uniqueSuffix);
