@@ -16,9 +16,9 @@ const port = process.env.PORT || 8000;
 connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({}));
+app.use(cors());
 
-const uploadDir = 'uploads/images';
+const uploadDir = './uploads/images';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
