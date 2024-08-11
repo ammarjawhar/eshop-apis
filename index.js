@@ -8,22 +8,13 @@ import path from 'path';
 import userRouter from './routes/userRoutes.js';
 import cartRouter from './routes/cartRouts.js';
 
-const app = express();
-app.use(
-  cors({
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200,
-    preflightContinue: true,
-    origin: '*',
-  })
-);
-
-dotenv.config();
 const port = process.env.PORT || 8000;
-
+const app = express();
 connectDB();
+app.use(cors());
+dotenv.config();
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,13 +25,11 @@ const storage = multer.diskStorage({
     return cb(null, file.fieldname + '-' + uniqueSuffix);
   },
 });
-
 const upload = multer({ storage: storage });
-
 app.get('/', (req, res) => {
   res.send('api is running');
 });
-
+  
 app.use('/images', express.static('./uploads/images'));
 app.post('/upload', upload.single('product'), (req, res) => {
   res.status(200).json({
@@ -50,7 +39,6 @@ app.post('/upload', upload.single('product'), (req, res) => {
     }`,
   });
 });
-
 app.use('/api/product', productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter);
