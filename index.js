@@ -7,7 +7,6 @@ import multer from 'multer';
 import path from 'path';
 import userRouter from './routes/userRoutes.js';
 import cartRouter from './routes/cartRouts.js';
-import fs from 'fs';
 
 dotenv.config();
 const app = express();
@@ -27,6 +26,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
 app.get('/', (req, res) => {
   res.send('api is running');
 });
