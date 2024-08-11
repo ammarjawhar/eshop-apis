@@ -8,7 +8,6 @@ import path from 'path';
 import userRouter from './routes/userRoutes.js';
 import cartRouter from './routes/cartRouts.js';
 
-
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 8000;
@@ -16,7 +15,13 @@ const port = process.env.PORT || 8000;
 connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://e-shop-admin-frontend.vercel.app',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  })
+);
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/images');
@@ -46,5 +51,4 @@ app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter);
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
-
 });
