@@ -7,6 +7,13 @@ import multer from 'multer';
 import path from 'path';
 import userRouter from './routes/userRoutes.js';
 import cartRouter from './routes/cartRouts.js';
+app.use(
+  cors({
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  })
+);
 
 dotenv.config();
 const app = express();
@@ -15,10 +22,11 @@ const port = process.env.PORT || 8000;
 connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 const storage = multer.diskStorage({
-  destination: './uploads/images',
+  destination: function (req, file, cb) {
+    cb(null, './uploads/images');
+  },
   filename: function (req, file, cb) {
     const uniqueSuffix = `${Date.now()}${path.extname(file.originalname)}`;
     return cb(null, file.fieldname + '-' + uniqueSuffix);
@@ -26,8 +34,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
-
 
 app.get('/', (req, res) => {
   res.send('api is running');
