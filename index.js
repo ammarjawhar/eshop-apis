@@ -18,14 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const uploadDir = './uploads/images';
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
+  destination: './uploads/images',
   filename: function (req, file, cb) {
     const uniqueSuffix = `${Date.now()}${path.extname(file.originalname)}`;
     return cb(null, file.fieldname + '-' + uniqueSuffix);
@@ -36,7 +30,8 @@ const upload = multer({ storage: storage });
 app.get('/', (req, res) => {
   res.send('api is running');
 });
-app.use('/images', express.static(uploadDir));
+
+app.use('/images', express.static('./uploads/images'));
 app.post('/upload', upload.single('product'), (req, res) => {
   res.status(200).json({
     success: true,
