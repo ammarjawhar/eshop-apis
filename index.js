@@ -9,16 +9,7 @@ import userRouter from './routes/userRoutes.js';
 import cartRouter from './routes/cartRouts.js';
 
 const app = express();
-app.use(
-  cors({
-    origin: [
-      'https://frondend-eshop.vercel.app',
-      'https://aeshop-admin.vercel.app',
-    ],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  })
-);
+app.use(cors());
 
 dotenv.config();
 const port = process.env.PORT || 8000;
