@@ -10,26 +10,22 @@ import cartRouter from './routes/cartRouts.js';
 
 const port = process.env.PORT || 8000;
 const app = express();
-connectDB();
 app.use(cors());
 dotenv.config();
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
   destination: './uploads/images',
   filename: function (req, file, cb) {
-    const uniqueSuffix = `${Date.now()}${path.extname(file.originalname)}`;
-    return cb(null, file.fieldname + '-' + uniqueSuffix);
+    return cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
   },
 });
 const upload = multer({ storage: storage });
-app.get('/', (req, res) => {
-  res.send('api is running');
-});
-  
+
 app.use('/images', express.static('./uploads/images'));
 app.post('/upload', upload.single('product'), (req, res) => {
   res.status(200).json({
@@ -39,9 +35,14 @@ app.post('/upload', upload.single('product'), (req, res) => {
     }`,
   });
 });
+
+app.get('/', (req, res) => {
+  res.send('api is running');
+});
 app.use('/api/product', productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter);
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+  connectDB();
 });
